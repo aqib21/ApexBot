@@ -1,0 +1,22 @@
+{
+  "name": "apex-bot",
+  "version": "1.0.0",
+  "description": "apex legends stats and informations",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "discord",
+    "apex"
+  ],
+  "author": "@aqib",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^13.7.0",
+    "dotenv": "^16.0.1",
+    "fs": "^0.0.1-security",
+    "nodemon": "^2.0.16",
+    "requests": "^0.3.0"
+  }
+}
