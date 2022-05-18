@@ -41,6 +41,15 @@ client.on('messageCreate', async message =>{
         case 'store':
             client.commands.get('store').execute(message, args);
             break;
+        case 'news':
+            client.commands.get('news').execute(message, args);
+            break;
+        case 'servers':
+            client.commands.get('servers').execute(message, args);
+            break;
+        case 'chat':
+            client.commands.get('chat').execute(message, args);
+            break;
         case 'help':
             client.commands.get('help').execute(message, args);
             break;

@@ -35,7 +35,12 @@ module.exports = {
                 embeds.push(embed)
             });
             
-            message.channel.send({embeds: embeds});
+            if(embeds.length > 10) {
+                message.channel.send({embeds: embeds.slice(0,9)});
+                message.channel.send({embeds: embeds.slice(9)});
+            }else{
+                message.channel.send({embeds: embeds});
+            }
         })
         .on('end', (err)=> {
             if (err) {

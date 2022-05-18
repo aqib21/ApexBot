@@ -18,7 +18,7 @@ module.exports = {
                 .addField("Start Time", `${data.current.readableDate_start}`,true)
                 .addField("End Time", `${data.current.readableDate_end}`,true)
                 .addField("Remaining Timer", `${data.current.remainingTimer}`,true)
-                .setFooter({text: `Next map: ${data.next.map}`})
+                .setFooter({text: `Next map: ${data.next.map} - Ends at: ${data.next.readableDate_end}`})
             message.channel.send({embeds: [embed]});
         })
         .on('end', (err)=> {
