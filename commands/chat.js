@@ -15,6 +15,9 @@ module.exports = {
         .on("data", (chunk) => {
           message.channel.sendTyping();
           let data = JSON.parse(chunk);
+
+          if (data.error) return message.channel.send("Try again later");
+
           message.channel.send(data.response);
         })
         .on("end", (err) => {
