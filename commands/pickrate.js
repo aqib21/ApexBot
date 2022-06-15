@@ -58,6 +58,9 @@ module.exports = {
           });
         });
         message.channel.send("Legend popularity - based on 12.8 M players");
+        for (let i = 0; i < embeds.length; i += 10) {
+          message.channel.send({ embeds: embeds.slice(i, i + 10) });
+        }
       }
     );
   },
