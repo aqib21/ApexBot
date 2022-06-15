@@ -13,10 +13,12 @@
   "author": "@aqib",
   "license": "ISC",
   "dependencies": {
+    "cheerio": "^1.0.0-rc.11",
     "discord.js": "^13.7.0",
     "dotenv": "^16.0.1",
     "fs": "^0.0.1-security",
     "nodemon": "^2.0.16",
+    "pg": "^8.7.3",
     "requests": "^0.3.0"
   }
 }

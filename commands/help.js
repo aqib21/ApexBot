@@ -1,21 +1,26 @@
-const Discord = require('discord.js');
+const Discord = require("discord.js");
+const fs = require("fs");
+const commandFiles = fs
+  .readdirSync("./commands")
+  .filter((file) => file.endsWith(".js"));
 
 module.exports = {
-    name: "help",
-    description: "Help command",
-    execute(message, args) {
-        let embed = new Discord.MessageEmbed()
-            .setTitle("Help")
-            .setColor('BLACK')
-            .addField(";help", "Shows this message")
-            .addField(";map", "Shows the current map rotation")
-            .addField(";craft / ;crafting", "Shows the current crafting rotation")
-            .addField(";store", "Shows the current store rotation")
-            .addField(";news", "Shows the current news")
-            .addField(";servers", "Shows the current status of servers")
-            .addField(";chat", "Chat with AI")
-            .addField(";player <Username> <Platform>", "Shows the stats of a player")
+  name: "help",
+  description: "Help command",
+  execute(message, args) {
+    let embed = new Discord.MessageEmbed()
+      .setTitle("Help")
+      .setColor("BLACK")
+      .setFooter({
+        text: "If you need further help, please contact rekt#0034",
+      });
 
-        message.channel.send({embeds: [embed]});
+    for (const file of commandFiles) {
+      const command = require(`./${file}`);
+      if (["test", "help"].includes(command.name)) continue;
+      embed.addField(`${command.name}`, `${command.description}`);
     }
-}
+
+    message.channel.send({ embeds: [embed] });
+  },
+};
