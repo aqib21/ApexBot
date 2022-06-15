@@ -27,9 +27,11 @@ client.once("ready", () => {
 });
 
 client.on("messageCreate", async (message) => {
+  const args = message.content.slice(prefix.length).split(/ +/);
+  if (message.mentions["users"].first().id === "836196253528227850")
+    return client.commands.get("chat").execute(message, args);
   if (message.author.bot) return;
   if (!message.content.startsWith(prefix)) return;
-  const args = message.content.slice(prefix.length).split(/ +/);
   const command = args.shift().toLowerCase();
   try {
     client.commands.get(command).execute(message, args);
