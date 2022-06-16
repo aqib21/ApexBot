@@ -13,6 +13,8 @@ module.exports = {
       .setColor("BLACK")
       .setFooter({
         text: "If you need further help, please contact rekt#0034",
+        iconURL:
+          "https://cdn.discordapp.com/avatars/313280699601911808/a793a48c59345400ca668be499b563b6.webp",
       });
 
     for (const file of commandFiles) {
