@@ -29,8 +29,12 @@ client.once("ready", () => {
 client.on("messageCreate", async (message) => {
   const args = message.content.slice(prefix.length).split(/ +/);
   if (message.mentions["users"].size !== 0) {
-    if (message.mentions["users"].first().id === "836196253528227850")
+    if (message.mentions["users"].first().id === "836196253528227850") {
+      const args = message.content
+        .replace("<@836196253528227850> ", "")
+        .split(/ +/);
       return client.commands.get("chat").execute(message, args);
+    }
   }
 
   if (message.author.bot) return;
