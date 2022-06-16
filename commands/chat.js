@@ -4,7 +4,7 @@ module.exports = {
   name: "chat",
   description: "Chat with AI",
   execute(message, args) {
-    if (args.length < 1)
+    if (args.join().length < 1)
       return message.channel.send("Please provide a message to chat with AI.");
     //return message.channel.send("I'm grounded");
     let url = `https://some-random-api.ml/chatbot?key=${
