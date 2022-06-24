@@ -19,7 +19,7 @@ module.exports = {
 
     for (const file of commandFiles) {
       const command = require(`./${file}`);
-      if (["test", "help"].includes(command.name)) continue;
+      if (["test", "help", "dm"].includes(command.name)) continue;
       embed.addField(`${command.name}`, `${command.description}`);
     }
 
