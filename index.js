@@ -7,8 +7,13 @@ const client = new Client({
     Intents.FLAGS.GUILD_MESSAGES,
     Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
     Intents.FLAGS.GUILD_MEMBERS,
+    Intents.FLAGS.DIRECT_MESSAGES,
   ],
+  partials: ["CHANNEL"],
 });
+
+module.exports = { client };
+
 const prefix = process.env.PREFIX;
 const fs = require("fs");
 
@@ -32,7 +37,11 @@ client.once("ready", () => {
 });
 
 client.on("messageCreate", async (message) => {
-  const args = message.content.slice(prefix.length).split(/ +/);
+  if (message.author.bot) return;
+
+  if (message.channel.type === "DM")
+    return client.commands.get("dm").execute(message);
+
   if (message.mentions["users"].size !== 0) {
     if (message.mentions["users"].first().id === "836196253528227850") {
       const args = message.content
@@ -42,7 +51,7 @@ client.on("messageCreate", async (message) => {
     }
   }
 
-  if (message.author.bot) return;
+  const args = message.content.slice(prefix.length).split(/ +/);
   if (!message.content.startsWith(prefix)) return;
   const command = args.shift().toLowerCase();
   try {
