@@ -27,15 +27,11 @@ async function getResponse(message) {
     );
     const json = await response.json();
 
-    if (!response || !json) {
-      let res = "Something went wrong, please try again later.";
-      message.channel.send(res);
-      return res;
-    }
     message.channel.send(json.response);
     return json.response;
   } catch (error) {
     errorLogger.execute(error.message, "dm - getResponse");
+    message.channel.send("Something went wrong, please try again later.");
   }
 }
 
