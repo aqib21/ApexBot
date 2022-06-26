@@ -21,7 +21,7 @@ async function getResponse(message) {
   const response = await fetch(
     `https://some-random-api.ml/chatbot?key=${
       process.env.CHATBOT_TOKEN
-    }&message=${encodeURIComponent(message.content)}`
+    }&message=${message.content}`
   ).catch(console.error);
   const json = await response.json().catch(console.error);
 
