@@ -25,7 +25,9 @@ async function getResponse(message) {
     `https://some-random-api.ml/chatbot?key=${
       process.env.CHATBOT_TOKEN
     }&message=${encodeURIComponent(message.content)}`
-  ).catch(console.error);
+  ).catch((err) => {
+    errorLogger.execute(err.message, "dm - getResponse");
+  });
   const json = await response.json().catch((err) => {
     errorLogger.execute(err.message, "dm - getResponse");
   });
