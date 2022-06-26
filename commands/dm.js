@@ -21,25 +21,22 @@ module.exports = {
 };
 
 async function getResponse(message) {
-  const response = await fetch(
-    `https://some-random-api.ml/chatbot?key=${
-      process.env.CHATBOT_TOKEN
-    }&message=${encodeURIComponent(message.content)}`
-  ).catch((err) => {
-    errorLogger.execute(err.message, "dm - getResponse");
-  });
-  const json = await response.json().catch((err) => {
-    errorLogger.execute(err.message, "dm - getResponse");
-  });
+  try {
+    const response = await fetch(
+      `https://some-random-api.ml/chatbot?key=${process.env.CHATBOT_TOKEN}&message=${message.content}`
+    );
+    const json = await response.json();
 
-  if (!response || !json) {
-    let res = "Something went wrong, please try again later.";
-    message.channel.send(res);
-    return res;
+    if (!response || !json) {
+      let res = "Something went wrong, please try again later.";
+      message.channel.send(res);
+      return res;
+    }
+    message.channel.send(json.response);
+    return json.response;
+  } catch (error) {
+    errorLogger.execute(error.message, "dm - getResponse");
   }
-
-  message.channel.send(json.response);
-  return json.response;
 }
 
 async function findChannel(authorID) {
