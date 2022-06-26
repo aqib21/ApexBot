@@ -1,4 +1,5 @@
 const requests = require("requests");
+const errorLogger = require("../helper/error_logger.js");
 
 module.exports = {
   name: "servers",
@@ -28,8 +29,8 @@ module.exports = {
       })
       .on("end", (err) => {
         if (err) {
-          message.channel.send("Error Occurred, check logs.");
-          return console.log("connection closed due to errors", err);
+          errorLogger.execute(err, "servers");
+          return message.channel.send("Error Occurred, check logs.");
         }
       });
   },

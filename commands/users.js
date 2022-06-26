@@ -1,3 +1,4 @@
+const errorLogger = require("../helper/error_logger.js");
 const { Client } = require("pg");
 const pg = new Client({
   connectionString: process.env.DB_URL,
@@ -16,7 +17,7 @@ module.exports = {
       return message.channel.send("You are not allowed to use this command.");
     pg.query(`SELECT * FROM apex_users`, (err, res) => {
       if (err) {
-        console.log(err);
+        errorLogger.execute(err, "users - SELECT");
         return message.channel.send("Error Occurred, check logs.");
       }
       if (res.rows.length == 0)

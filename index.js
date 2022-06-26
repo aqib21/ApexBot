@@ -1,4 +1,5 @@
 require("dotenv").config();
+const errorLogger = require("./helper/error_logger.js");
 const Discord = require("discord.js");
 const { Client, Intents } = require("discord.js");
 const client = new Client({
@@ -57,7 +58,7 @@ client.on("messageCreate", async (message) => {
   try {
     client.commands.get(command).execute(message, args);
   } catch (error) {
-    console.error(error.message);
+    errorLogger.execute(error.message, "index");
     message.channel.send(
       "Invalid command, type ;help to list the existing commands."
     );

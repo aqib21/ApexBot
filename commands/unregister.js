@@ -1,3 +1,4 @@
+const errorLogger = require("../helper/error_logger.js");
 const { Client } = require("pg");
 const pg = new Client({
   connectionString: process.env.DB_URL,
@@ -17,7 +18,7 @@ module.exports = {
       `SELECT * FROM apex_users WHERE user_id = '${userID}'`,
       (err, res) => {
         if (err) {
-          console.log(err);
+          errorLogger.execute(err, "unregister - SELECT ID");
           return message.channel.send(`Error Occurred, check logs. ${err}`);
         }
         if (res.rows.length == 0)
@@ -27,7 +28,7 @@ module.exports = {
           `DELETE FROM apex_users WHERE user_id = '${userID}'`,
           (err, res) => {
             if (err) {
-              console.log(err);
+              errorLogger.execute(err, "unregister - DELETE");
               return message.channel.send(`Error Occurred, check logs. ${err}`);
             }
             message.channel.send("Successfully unregistered.");

@@ -1,14 +1,16 @@
 const requests = require("requests");
 const cheerio = require("cheerio");
 const Discord = require("discord.js");
+const errorLogger = require("../helper/error_logger.js");
 
 module.exports = {
   name: "pickrate",
   description: "Shows the current pick rate of legends",
   execute(message, args) {
-    requests("https://apexlegendsstatus.com/game-stats/legends-pick-rates").on(
-      "data",
-      (chunk) => {
+    try {
+      requests(
+        "https://apexlegendsstatus.com/game-stats/legends-pick-rates"
+      ).on("data", (chunk) => {
         let $ = cheerio.load(chunk);
         let data = $(".legends-banner__item");
         let embeds = [];
@@ -61,7 +63,10 @@ module.exports = {
         for (let i = 0; i < embeds.length; i += 10) {
           message.channel.send({ embeds: embeds.slice(i, i + 10) });
         }
-      }
-    );
+      });
+    } catch (error) {
+      errorLogger.execute(error.message, "pickrate");
+      return message.channel.send("Error Occurred, check logs.");
+    }
   },
 };

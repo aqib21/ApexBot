@@ -1,4 +1,5 @@
 const requests = require("requests");
+const errorLogger = require("../helper/error_logger.js");
 const { Client } = require("pg");
 const pg = new Client({
   connectionString: process.env.DB_URL,
@@ -36,7 +37,7 @@ module.exports = {
           `SELECT * FROM apex_users WHERE user_id = '${userID}'`,
           (err, res) => {
             if (err) {
-              console.log(err);
+              errorLogger.execute(err, "register - SELECT ID");
               return message.channel.send(`Error Occurred, check logs. ${err}`);
             }
             if (res.rows.length > 0)
@@ -48,7 +49,7 @@ module.exports = {
               `SELECT * FROM apex_users WHERE username = '${player.toLowerCase()}'`,
               (err, res) => {
                 if (err) {
-                  console.log(err);
+                  errorLogger.execute(err, "register - SELECT USERNAME");
                   return message.channel.send(
                     `Error Occurred, check logs. ${err}`
                   );
@@ -62,7 +63,7 @@ module.exports = {
                   `INSERT INTO apex_users (user_id, username, platform) VALUES ('${userID}', '${player.toLowerCase()}', '${platform.toUpperCase()}')`,
                   (err, res) => {
                     if (err) {
-                      console.log(err);
+                      errorLogger.execute(err, "register - INSERT");
                       return message.channel.send(
                         `Error Occurred, check logs. ${err}`
                       );
@@ -77,8 +78,8 @@ module.exports = {
       })
       .on("end", (err) => {
         if (err) {
-          message.channel.send("Error Occurred, check logs.");
-          return console.log("connection closed due to errors", err);
+          errorLogger.execute(err, "register");
+          return message.channel.send(`Error Occurred, check logs.`);
         }
       });
   },

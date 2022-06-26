@@ -1,5 +1,6 @@
 const requests = require("requests");
 const Discord = require("discord.js");
+const errorLogger = require("../helper/error_logger.js");
 
 module.exports = {
   name: "map",
@@ -51,8 +52,8 @@ module.exports = {
       })
       .on("end", (err) => {
         if (err) {
-          message.channel.send("Error Occurred, check logs.");
-          return console.log("connection closed due to errors", err);
+          errorLogger.execute(err, "map");
+          return message.channel.send("Error Occurred, check logs.");
         }
       });
   },

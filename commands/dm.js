@@ -1,11 +1,14 @@
 const client = require("../index").client;
 const fetch = require("node-fetch");
+const errorLogger = require("../helper/error_logger.js");
 
 module.exports = {
   name: "dm",
   description: "Direct Messaging",
   async execute(message) {
     message.channel.sendTyping();
+
+    // if (message.author.id === "313280699601911808") return myCommands(message);
 
     let msg = `**${message.author.tag}:** ${message.content}`;
     let botMsg = "**BOT:** " + (await getResponse(message));
@@ -21,9 +24,11 @@ async function getResponse(message) {
   const response = await fetch(
     `https://some-random-api.ml/chatbot?key=${
       process.env.CHATBOT_TOKEN
-    }&message=${message.content}`
+    }&message=${encodeURIComponent(message.content)}`
   ).catch(console.error);
-  const json = await response.json().catch(console.error);
+  const json = await response.json().catch((err) => {
+    errorLogger.execute(err.message, "dm - getResponse");
+  });
 
   if (!response || !json) {
     let res = "Something went wrong, please try again later.";
@@ -45,7 +50,15 @@ async function findChannel(authorID) {
         c.setParent("989805996933259305");
         return c;
       })
-      .catch(console.error);
+      .catch((err) => {
+        errorLogger.execute(err.message, "dm - getResponse");
+      });
   }
   return channelFound;
+}
+
+function myCommands(message) {
+  const args = message.content.split(/ +/);
+  const command = args.shift().toLowerCase();
+  console.log(command);
 }
