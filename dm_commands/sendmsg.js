@@ -3,6 +3,9 @@ const client = require("../index").client;
 module.exports = {
   name: "sendmsg",
   async execute(message, args) {
+    if (message.author.id !== "313280699601911808")
+      return message.channel.send("You are not allowed to use this command.");
+    
     let [serverID, channelID, ...msgs] = args;
     let msg = msgs.join(" ");
 
