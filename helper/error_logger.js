@@ -20,7 +20,6 @@ module.exports = {
       (err, res) => {
         if (err) {
           console.log(err);
-          return message.channel.send(`Error Occurred, check logs. ${err}`);
         }
       }
     );

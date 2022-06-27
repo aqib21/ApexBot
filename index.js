@@ -58,10 +58,10 @@ client.on("messageCreate", async (message) => {
   try {
     client.commands.get(command).execute(message, args);
   } catch (error) {
-    errorLogger.execute(error.message, "index");
     message.channel.send(
       "Invalid command, type ;help to list the existing commands."
     );
+    console.log(error);
   }
 });
 

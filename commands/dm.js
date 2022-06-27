@@ -1,6 +1,17 @@
 const client = require("../index").client;
 const fetch = require("node-fetch");
 const errorLogger = require("../helper/error_logger.js");
+const prefix = process.env.PREFIX;
+const fs = require("fs");
+
+const commandFiles = fs
+  .readdirSync("./dm_commands")
+  .filter((file) => file.endsWith(".js"));
+
+for (const file of commandFiles) {
+  const command = require(`../dm_commands/${file}`);
+  client.commands.set(command.name, command);
+}
 
 module.exports = {
   name: "dm",
@@ -8,7 +19,18 @@ module.exports = {
   async execute(message) {
     message.channel.sendTyping();
 
-    // if (message.author.id === "313280699601911808") return myCommands(message);
+    if (
+      message.author.id === "313280699601911808" &&
+      message.content.startsWith(prefix)
+    ) {
+      const args = message.content.slice(prefix.length).split(/ +/);
+      const command = args.shift().toLowerCase();
+      try {
+        return client.commands.get(command).execute(message, args);
+      } catch (error) {
+        return message.channel.send(error.message);
+      }
+    }
 
     let msg = `**${message.author.tag}:** ${message.content}`;
     let botMsg = "**BOT:** " + (await getResponse(message));
@@ -32,6 +54,7 @@ async function getResponse(message) {
   } catch (error) {
     errorLogger.execute(error.message, "dm - getResponse");
     message.channel.send("Something went wrong, please try again later.");
+    return "error";
   }
 }
 
@@ -50,10 +73,4 @@ async function findChannel(authorID) {
       });
   }
   return channelFound;
-}
-
-function myCommands(message) {
-  const args = message.content.split(/ +/);
-  const command = args.shift().toLowerCase();
-  console.log(command);
 }
