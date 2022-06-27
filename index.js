@@ -40,8 +40,10 @@ client.once("ready", () => {
 client.on("messageCreate", async (message) => {
   if (message.author.bot) return;
 
-  if (message.channel.type === "DM")
+  if (message.channel.type === "DM"){
+    return message.channel.send('This feature has been temporarily disabled. Contact Rekt for more info.')
     return client.commands.get("dm").execute(message);
+  }
 
   if (message.mentions["users"].size !== 0) {
     if (message.mentions["users"].first().id === "836196253528227850") {
