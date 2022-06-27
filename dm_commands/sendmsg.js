@@ -8,10 +8,20 @@ module.exports = {
 
     try {
       let server = client.guilds.cache.get(serverID);
-      let channel = await server.channels.fetch(channelID);
 
-      channel.send(msg).catch(console.error);
-      message.channel.send(`DM'd ${channel.name} at ${server.name}.`);
+      if (channelID === "all") {
+        server.channels.fetch().then((channels) => {
+          channels.forEach((channel) => {
+            if (channel.type !== "GUILD_TEXT") return;
+            channel.send(msg).catch(console.error);
+          });
+        });
+        message.channel.send(`Sent to all at ${server.name}.`);
+      } else {
+        let channel = await server.channels.fetch(channelID);
+        channel.send(msg).catch(console.error);
+        message.channel.send(`Sent to ${channel.name} at ${server.name}.`);
+      }
     } catch (error) {
       message.channel.send(error.message);
     }
