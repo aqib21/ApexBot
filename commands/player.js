@@ -27,6 +27,7 @@ module.exports = {
         let badges = [];
 
         data.legends.selected.gameInfo.badges.forEach((badge) => {
+          if (badge.name === null) badge.name = "Empty";
           let emojiName =
             badge.name
               .toLowerCase()
