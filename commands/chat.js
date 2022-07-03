@@ -19,7 +19,11 @@ module.exports = {
 
           if (data.error) return message.channel.send("Try again later");
 
-          message.channel.send(data.response);
+          let filteredMsg = data.response
+            .replace("Telk", "rekt")
+            .replace("Some Random Chat", "Chatty");
+
+          message.channel.send(filteredMsg);
         })
         .on("end", (err) => {
           if (err) {
