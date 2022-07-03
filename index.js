@@ -41,7 +41,7 @@ client.on("messageCreate", async (message) => {
   if (message.author.bot) return;
 
   if (message.channel.type === "DM"){
-    return message.channel.send('This feature has been temporarily disabled for maintenance. Contact Rekt for more info.')
+    //return message.channel.send('This feature has been temporarily disabled for maintenance. Contact Rekt for more info.')
     return client.commands.get("dm").execute(message);
   }
 
