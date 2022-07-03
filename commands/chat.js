@@ -21,7 +21,8 @@ module.exports = {
 
           let filteredMsg = data.response
             .replace("Telk", "rekt")
-            .replace("Some Random Chat", "Chatty");
+            .replace("Some Random Chat", "Chatty")
+            .replace("https://some-random-api.ml/", "rekt");
 
           message.channel.send(filteredMsg);
         })
