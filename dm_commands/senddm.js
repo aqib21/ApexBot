@@ -3,9 +3,6 @@ const client = require("../index").client;
 module.exports = {
   name: "senddm",
   async execute(message, args) {
-    if (message.author.id !== "313280699601911808")
-      return message.channel.send("You are not allowed to use this command.");
-    
     let [serverID, userID, ...msgs] = args;
     let msg = msgs.join(" ");
 
@@ -16,13 +13,15 @@ module.exports = {
         server.members.fetch({ force: true, cache: false }).then((members) => {
           members.forEach((member) => {
             if (member.user.bot) return;
-            member.user.send(msg).catch(console.error);
+            member.user
+              .send(`${member.user.username}, ${msg}`)
+              .catch(console.error);
           });
         });
         message.channel.send(`DM'd all at ${server.name}.`);
       } else {
         let user = await server.members.fetch(userID);
-        user.send(msg).catch(console.error);
+        user.send(`${user.user.username}, ${msg}`).catch(console.error);
         message.channel.send(`DM'd ${user.user.username} at ${server.name}.`);
       }
     } catch (error) {
