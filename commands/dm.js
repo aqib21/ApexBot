@@ -48,9 +48,11 @@ async function getResponse(message) {
       `https://some-random-api.ml/chatbot?key=${process.env.CHATBOT_TOKEN}&message=${message.content}`
     );
     const json = await response.json();
-
-    message.channel.send(json.response);
-    return json.response;
+    let filteredMsg = json.response
+      .replace("Telk", "rekt")
+      .replace("Some Random Chat", "Chatty");
+    message.channel.send(filteredMsg);
+    return filteredMsg;
   } catch (error) {
     errorLogger.execute(error.message, "dm - getResponse");
     message.channel.send("Something went wrong, please try again later.");
