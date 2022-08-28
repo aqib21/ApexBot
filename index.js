@@ -51,6 +51,12 @@ client.on("messageCreate", async (message) => {
         .replace("<@836196253528227850>", "")
         .split(/ +/);
       return client.commands.get("chat").execute(message, args);
+    } else if (
+      message.mentions["users"].first().id === "313280699601911808" &&
+      (message.content.trim().toLowerCase() === "<@313280699601911808> ok" ||
+        message.content.trim().toLowerCase() === "<@313280699601911808> okay")
+    ) {
+      message.delete();
     }
   }
 
